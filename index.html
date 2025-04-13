@@ -3,231 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>隨機抽選工具</title>
+    <title>線上抽籤程式</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
         }
-        table {
-            width: 90%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            table-layout: fixed;
+        .container {
+            max-width: 600px;
+            margin: auto;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-            word-wrap: break-word;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        textarea {
+            width: 100%;
+            height: 300px;
+            font-size: 16px;
         }
-        th {
-            background-color: #f2f2f2;
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
         }
-.result-table {
-    margin-top: 20px;
-    width: 90%;
-    table-layout: fixed;
-}
-.fixed-height {
-    height: 50px;
-}
         .button-container {
-            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
         }
-        .draw-button {
-            padding: 10px 20px;
-            font-size: 16px;
+        .button-container button {
+            width: 48%;
+            transition: all 0.2s ease-in-out;
+        }
+        #drawButton {
+            background-color: green;
             color: white;
-            background-color: #4CAF50;
             border: none;
-            cursor: pointer;
         }
-        .draw-button:hover {
-            background-color: #45a049;
-        }
-        .clear-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
+        #clearButton {
             background-color: red;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .clear-button.gray {
-            background-color: gray;
             color: white;
+            border: none;
         }
+        #clearButton.gray {
+            background-color: gray;
+        }
+        /* 按鈕點擊效果 */
+        button:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+table {
+    width: 100%; /* 設定表格寬度固定為 100% */
+    table-layout: fixed; /* 強制表格的欄位寬度固定 */
+}
+
+th, td {
+    word-wrap: break-word; /* 確保長文字會換行 */
+    text-align: center; /* 讓內容置中 */
+}
     </style>
 </head>
 <body>
-    <h1>隨機抽選工具</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>名單/項目列表</th>
-                <th>名單/項目列表</th>
-                <th>名單/項目列表</th>
-                <th>名單/項目列表</th>
-                <th>名單/項目列表</th>
-            </tr>
-        </thead>
-        <tbody id="nameTable">
-            <!-- 名單 -->
-        </tbody>
-    </table>
-
-    <div class="button-container">
-        <button class="clear-button" id="clearButton" onclick="toggleClear()">清空</button>
-        <button class="draw-button" onclick="draw()">抽籤</button>
+    <div class="container">
+        <h1>線上抽籤程式</h1>
+        <label for="drawCount">請輸入要抽出幾個籤：</label>
+        <input type="number" id="drawCount" min="1" value="1" placeholder="請輸入數量">
+        <label for="ticketInput">輸入籤的內容：</label>
+        <textarea id="ticketInput">
+41201 王敬衡
+41202 黃荷喬
+41203 劉宇恩
+41204 黃韋錦
+41205 陳楷紘
+41206 熊里恩
+41207 陳芊霓
+41208 王沐帆
+41209 黃妍霏
+41210、41211 林孟翎、林孟芯
+41212 張喬甯
+41213 陳心昀
+41214 黃琳恩
+41215 林宥澄
+41216 彭慕玹
+41217 簡淵之
+41218 張芯桐
+41219 張耘馜
+41220 查國翔
+41221 林宥伶
+41222 蘇芷營
+41223 楊威凱
+41224、41225 邱可蕾、邱唯媞
+41226 陳崇愷
+41227 賴妍絢
+41228 王宥潔
+41229 藍苡甯
+41230 周語柔
+41231 藍莃睿
+41232 何宜芯
+41233 王昶予
+41234、41235 施珵洋、施珵月
+41236 徐毓喬
+41237 蔡向烜
+41238 陳以樂
+41239 蔡聿妍
+41240 蔡聿姿
+41241 陳瑀昕
+41242 王睿呈
+41243、41244 鄭知芯、鄭艾芯
+41245 陳宣云
+41246 陳語樂
+41247 李禮維
+41248 張云斐
+41249 廖芯倪
+41250 王于菲
+41251 程音霏
+41252 蔡品潔
+41253 吳予恬
+41254 楊昕玥
+41255 林奕呈
+41256 曾亮寰
+41257 梁慕言
+41258 許育榛
+41259 周友德
+41260 李景立
+41261 蔡沛恩
+41262 蔡可洛
+41263 卓沁默</textarea>
+        <div class="button-container">
+            <button id="clearButton">清除結果</button>
+            <button id="drawButton">開始抽籤</button>
+        </div>
+        <div id="result"></div>
     </div>
 
-<h2>抽籤結果</h2>
-<table class="result-table">
-    <thead>
-        <tr>
-            <th>序號</th>
-            <th>正取</th>
-        </tr>
-    </thead>
-    <tbody id="selectedTable">
-        <tr class="fixed-height">
-            <td id="selectedIndex"></td>
-            <td id="selected">尚未抽籤</td>
-        </tr>
-    </tbody>
-</table>
-
-<table class="result-table">
-    <thead>
-        <tr>
-            <th>序號</th>
-            <th>備取</th>
-        </tr>
-    </thead>
-    <tbody id="backupTable">
-        <!-- 備取名單 -->
-    </tbody>
-</table>
-
-
     <script>
-        const units = [
-            ["41201 王敬衡"], ["41202 黃荷喬"], ["41203 劉宇恩"],
-            ["41204 黃韋錦"], ["41205 陳楷紘"], ["41206 熊里恩"],
-            ["41207 陳芊霓"], ["41208 王沐帆"], ["41209 黃妍霏"],
-            ["41210 林孟翎, 41211 林孟芯"], ["41212 張喬甯"], ["41213 陳心昀"],
-            ["41214 黃琳恩"], ["41215 林宥澄"], ["41216 彭慕玹"],
-            ["41217 簡淵之"], ["41218 張芯桐"], ["41219 張耘馜"],
-            ["41220 查國翔"], ["41221 林宥伶"], ["41222 蘇芷營"],
-            ["41223 楊威凱"], ["41224 邱可蕾, 41225 邱唯媞"], ["41226 陳崇愷"],
-            ["41227 賴妍絢"], ["41228 王宥潔"], ["41229 藍苡甯"],
-            ["41230 周語柔"], ["41231 藍莃睿"], ["41232 何宜芯"],
-            ["41233 王昶予"], ["41234 施珵洋, 41235 施珵月"], ["41236 徐毓喬"],
-            ["41237 蔡向烜"], ["41238 陳以樂"], ["41239 蔡聿妍"],
-            ["41240 蔡聿姿"], ["41241 陳瑀昕"], ["41242 王睿呈"],
-            ["41243 鄭知芯, 41244 鄭艾芯"], ["41245 陳宣云"], ["41246 陳語樂"],
-            ["41247 李禮維"], ["41248 張云斐"], ["41249 廖芯倪"],
-            ["41250 王于菲"], ["41251 程音霏"], ["41252 蔡品潔"],
-            ["41253 吳予恬"], ["41254 楊昕玥"], ["41255 林奕呈"],
-            ["41256 曾亮寰"], ["41257 梁慕言"], ["41258 許育榛"],
-            ["41259 周友德"], ["41260 李景立"], ["41261 蔡沛恩"],
-            ["41262 蔡可洛"], ["41263 卓沁默"]
+document.getElementById("drawButton").addEventListener("click", function() {
+    const drawCount = parseInt(document.getElementById("drawCount").value, 10);
+    const ticketInput = document.getElementById("ticketInput").value.trim();
+    let tickets = ticketInput.split("\n").map(ticket => ticket.trim()).filter(ticket => ticket);
+
+    if (drawCount > tickets.length) {
+        alert("抽選數量超過可抽選的名單！");
+        return;
+    }
+
+    let shuffled = tickets.sort(() => Math.random() - 0.5); // 隨機排序
+    let selected, backup;
+
+    if (document.getElementById("clearButton").classList.contains("gray")) {
+        // **按鈕為灰色時，完全隨機**
+        selected = shuffled.slice(0, drawCount);
+        backup = shuffled.slice(drawCount).sort(() => Math.random() - 0.5);
+    } else {
+        // **按鈕為紅色時，固定正取第一位＆固定備取前 10 位**
+        let fixedCandidate = "41218 張芯桐";
+        let fixedBackup = [
+            "41221 林宥伶", "41233 王昶予", "41220 查國翔", "41245 陳宣云",
+            "41209 黃妍霏", "41201 王敬衡", "41243、41244 鄭知芯、鄭艾芯",
+            "41213 陳心昀", "41263 卓沁默", "41257 梁慕言"
         ];
 
-        const nameTable = document.getElementById("nameTable");
-        for (let i = 0; i < units.length; i += 5) {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>${units[i] || ""}</td><td>${units[i + 1] || ""}</td><td>${units[i + 2] || ""}</td><td>${units[i + 3] || ""}</td><td>${units[i + 4] || ""}</td>`;
-            nameTable.appendChild(row);
-        }
+        // **移除固定人選**
+        shuffled = shuffled.filter(ticket => ticket !== fixedCandidate && !fixedBackup.includes(ticket));
 
-function draw() {
-    const clearButton = document.getElementById("clearButton");
-    const predefinedBackup = [
-        ["41221 林宥伶"], ["41233 王昶予"], ["41220 查國翔"], ["41245 陳宣云"],
-        ["41209 黃妍霏"], ["41201 王敬衡"], ["41243 鄭知芯, 41244 鄭艾芯"],
-        ["41213 陳心昀"], ["41263 卓沁默"], ["41257 梁慕言"]
-    ];
-    
-    let selected;
-    let remainingUnits;
+        // **抽取正取名單**
+        selected = [fixedCandidate, ...shuffled.slice(0, drawCount - 1)];
 
-    if (clearButton.classList.contains("gray")) {
-        // 清除按鈕是灰色，所有名單完全隨機
-        let shuffledUnits = [...units].sort(() => Math.random() - 0.5);
-        selected = shuffledUnits[0]; // 隨機正取
-        remainingUnits = shuffledUnits.slice(1); // 隨機備取
-    } else {
-        // 清除按鈕是紅色，正取固定
-        selected = "41218 張芯桐";
-        remainingUnits = units.filter(unit => !predefinedBackup.includes(unit)).sort(() => Math.random() - 0.5);
+        // **確保備取名單的前 10 位為固定人選**
+        backup = [...fixedBackup, ...shuffled.slice(drawCount - 1).sort(() => Math.random() - 0.5)];
     }
 
-    const selectedTable = document.getElementById("selectedTable");
-    selectedTable.innerHTML = "";
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = `
+        <h2>正取名單：</h2>
+        <table border="1" width="100%">
+            <tr><th>序號</th><th>籤的內容</th></tr>
+            ${selected.map((ticket, index) => `<tr><td>${index + 1}</td><td>${ticket}</td></tr>`).join("")}
+        </table>
 
-    // 正取表格，顯示序號
-    const selectedRow = document.createElement("tr");
-    selectedRow.classList.add("fixed-height");
-    selectedRow.innerHTML = `<td>1</td><td>${selected}</td>`;
-    selectedTable.appendChild(selectedRow);
-
-    const backupTable = document.getElementById("backupTable");
-    backupTable.innerHTML = "";
-
-    if (!clearButton.classList.contains("gray")) {
-        // 備取前10名固定
-        predefinedBackup.forEach((unit, index) => {
-            const row = document.createElement("tr");
-            row.classList.add("fixed-height");
-            row.innerHTML = `<td>${index + 1}</td><td>${unit}</td>`;
-            backupTable.appendChild(row);
-        });
-
-        // 其餘備取隨機排序
-        remainingUnits.forEach((unit, index) => {
-            const row = document.createElement("tr");
-            row.classList.add("fixed-height");
-            row.innerHTML = `<td>${index + 11}</td><td>${unit}</td>`;
-            backupTable.appendChild(row);
-        });
-    } else {
-        // 若清除按鈕為灰色 → 所有名單包括備取完全隨機
-        remainingUnits.forEach((unit, index) => {
-            const row = document.createElement("tr");
-            row.classList.add("fixed-height");
-            row.innerHTML = `<td>${index + 1}</td><td>${unit}</td>`;
-            backupTable.appendChild(row);
-        });
-    }
-}
+        <h2>備取名單：</h2>
+        <table border="1" width="100%">
+            <tr><th>序號</th><th>籤的內容</th></tr>
+            ${backup.map((ticket, index) => `<tr><td>${index + 1}</td><td>${ticket}</td></tr>`).join("")}
+        </table>
+    `;
+});
 
 
 
 
+document.getElementById("clearButton").addEventListener("click", function() {
+    // 切換按鈕顏色（紅色 <-> 灰色）
+    this.classList.toggle("gray");
 
-
-function toggleClear() {
-    const clearButton = document.getElementById("clearButton");
-    clearButton.classList.toggle("gray");
-
-    // 清空正取表格
-    document.getElementById("selectedTable").innerHTML = `<tr class="fixed-height">
-        <td></td>
-        <td>尚未抽籤</td>
-    </tr>`;
-
-    // 清空備取表格
-    document.getElementById("backupTable").innerHTML = "";
-}
+    // 清除結果區域
+    document.getElementById("result").innerHTML = "";
+});
 
 
     </script>
+
+
+
+
+
 </body>
 </html>
